@@ -5,13 +5,13 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Ex-ecution]
 
 
 ### Team Members
-- Team Lead: execution - [College]
-- Member 2: Alan Parappil agi - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
-- Member 3: Ann saniya - [College]
+- Team Lead: Ann Saniya - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
+- Member 2: Alan Parappil Agi - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
+- Member 3: Ann Saniya - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
 
 ### Project Description
 [2-3 lines about what your project does]
