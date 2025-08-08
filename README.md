@@ -9,9 +9,9 @@
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: execution - [College]
+- Member 2: Alan Parappil agi - [College]
+- Member 3: Ann saniya - [College]
 
 ### Project Description
 [2-3 lines about what your project does]
