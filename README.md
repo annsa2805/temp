@@ -10,7 +10,7 @@
 
 ### Team Members
 - Team Lead: execution - [College]
-- Member 2: Alan Parappil agi - [College]
+- Member 2: Alan Parappil agi - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
 - Member 3: Ann saniya - [College]
 
 ### Project Description
