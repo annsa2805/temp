@@ -1,7 +1,7 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# [INAZE-INVISISBLE MAZE] 🎯
 
 
 ## Basic Details
@@ -11,44 +11,43 @@
 ### Team Members
 - Team Lead: Ann Saniya - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
 - Member 2: Alan Parappil Agi - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
-- Member 3: Ann Saniya - [SCMS SCHOOL OF ENGINEERNG AND TECHNOLOGY]
 
-### Project Description
-[2-3 lines about what your project does]
+
+### [Project description]
+Invisible Maze is an interactive puzzle game where players navigate through a hidden maze without seeing the walls, relying only on memory, logic, and subtle cues to reach the goal. It challenges problem-solving skills while adding an element of surprise and suspense.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People are tired of mazes where you can actually see the walls. Life is too easy when you know where you’re going! We’re solving the nonexistent crisis of “visible maze fatigue” by removing the walls entirely… but still making you crash into them.
+
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We introduce the *Invisible Maze* — a thrilling challenge where walls are completely hidden, and players must navigate using pure guesswork, memory, and frustration. It’s the perfect fix for anyone who thought regular mazes were “too fair.”
+
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
+- [HTML,CSS,JAVA]
+- [p5.js (maze rendering & collision logic), Howler.js (audio feedback)]
 - [Libraries used]
 - [Tools used]
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+[git clone https://github.com/<temp>.git]
 
 # Run
-[commands]
+[git clone <temp>]
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+
+
 
 ![Screenshot2](Add screenshot 2 here with proper name)
 *Add caption explaining what this shows*
@@ -60,37 +59,11 @@ For Software:
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Ann Saniya Rose Thomas: [FrontEnd]
+- Alan Parappil Agi: Backend
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
