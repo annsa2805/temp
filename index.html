@@ -419,8 +419,8 @@
             };
             
             // Update UI
-            movesCounter.textContent = Moves: 0;
-            timerDisplay.textContent = Time: 0;
+            movesCounter.textContent = `Moves: 0`;
+            timerDisplay.textContent = `Time: 0`;
             
             // Setup maze
             setupMaze(settings);
@@ -440,14 +440,14 @@
             gameState.cellSize = containerSize / settings.size;
             
             // Position player and exit
-            player.style.width = ${gameState.cellSize}px;
-            player.style.height = ${gameState.cellSize}px;
+            player.style.width = `${gameState.cellSize}px`;
+            player.style.height = `${gameState.cellSize}px`;
             updatePlayerPosition();
             
-            exit.style.width = ${gameState.cellSize}px;
-            exit.style.height = ${gameState.cellSize}px;
-            exit.style.left = ${gameState.exitPos.x * gameState.cellSize}px;
-            exit.style.top = ${gameState.exitPos.y * gameState.cellSize}px;
+            exit.style.width = `${gameState.cellSize}px`;
+            exit.style.height = `${gameState.cellSize}px`;
+            exit.style.left = `${gameState.exitPos.x * gameState.cellSize}px`;
+            exit.style.top = `${gameState.exitPos.y * gameState.cellSize}px`;
             
             // Generate proper maze with guaranteed solution
             generateMaze(settings);
@@ -612,10 +612,10 @@
             gameState.paths.forEach(pos => {
                 const pathElement = document.createElement('div');
                 pathElement.className = 'path';
-                pathElement.style.width = ${gameState.cellSize}px;
-                pathElement.style.height = ${gameState.cellSize}px;
-                pathElement.style.left = ${pos.x * gameState.cellSize}px;
-                pathElement.style.top = ${pos.y * gameState.cellSize}px;
+                pathElement.style.width = `${gameState.cellSize}px`;
+                pathElement.style.height = `${gameState.cellSize}px`;
+                pathElement.style.left = `${pos.x * gameState.cellSize}px`;
+                pathElement.style.top = `${pos.y * gameState.cellSize}px`;
                 pathElement.style.opacity = settings.pathOpacity;
                 mazeContainer.appendChild(pathElement);
             });
@@ -653,7 +653,7 @@
             
             movePlayer(direction);
             gameState.moves++;
-            movesCounter.textContent = Moves: ${gameState.moves};
+            movesCounter.textContent = `Moves: ${gameState.moves}`;
             updateHint();
         }
         
@@ -696,8 +696,8 @@
         }
         
         function updatePlayerPosition() {
-            player.style.left = ${gameState.playerPos.x * gameState.cellSize}px;
-            player.style.top = ${gameState.playerPos.y * gameState.cellSize}px;
+            player.style.left = `${gameState.playerPos.x * gameState.cellSize}px`;
+            player.style.top = `${gameState.playerPos.y * gameState.cellSize}px`;
         }
         
         function updateHint() {
@@ -754,7 +754,7 @@
             gameState.startTime = Date.now();
             gameState.timerInterval = setInterval(() => {
                 gameState.elapsedTime = Math.floor((Date.now() - gameState.startTime) / 1000);
-                timerDisplay.textContent = Time: ${gameState.elapsedTime};
+                timerDisplay.textContent = `Time: ${gameState.elapsedTime}`;
                 
                 // Check time limit
                 if (gameState.elapsedTime >= config[currentLevel].timeLimit) {
@@ -771,9 +771,9 @@
             
             const time = gameState.elapsedTime;
             if (win) {
-                alert(You won in ${time} seconds with ${gameState.moves} moves!);
+                alert(`You won in ${time} seconds with ${gameState.moves} moves!`);
             } else {
-                alert(Time's up! You took ${gameState.moves} moves.);
+                alert(`Time's up! You took ${gameState.moves} moves.`);
             }
             
             // Return to difficulty selection
