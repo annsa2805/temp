@@ -3,45 +3,782 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INAZE - Welcome</title>
+    <title>INVAZE</title>
     <style>
-        body {
+        /* Global Styles */
+        * {
             margin: 0;
             padding: 0;
-            background-color: black;
-            color: white;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0a1a2a;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 100, 200, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0, 150, 255, 0.15) 0%, transparent 25%);
+            animation: bgPulse 15s infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { background-color: #0a1a2a; }
+            100% { background-color: #0a2a3a; }
+        }
+        
+        /* Shared Components */
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
+            transition: opacity 0.5s;
         }
-
-        h1 {
-            font-size: 80px;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
+        
+        .title {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: 0.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 150, 255, 0.3);
+            position: relative;
         }
-
-        button {
-            background-color: red;
-            color: white;
-            font-size: 24px;
-            padding: 12px 30px;
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4facfe, transparent);
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.5rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
+            background: rgba(10, 50, 100, 0.7);
+            color: #a0d8ff;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            margin: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.1);
         }
-
-        button:hover {
-            background-color: darkred;
+        
+        .btn:hover {
+            background: rgba(100, 200, 255, 0.8);
+            color: #0a1a2a;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                transparent,
+                rgba(100, 200, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -50%; }
+            100% { left: 150%; }
+        }
+        
+        /* Welcome Screen */
+        #welcome-screen {
+            opacity: 1;
+        }
+        
+        /* Difficulty Screen */
+        #difficulty-screen {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .difficulty-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Game Screen */
+        #game-screen {
+            opacity: 0;
+            pointer-events: none;
+            justify-content: flex-start;
+            padding-top: 2rem;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: #a0d8ff;
+            text-shadow: 0 0 5px rgba(0, 150, 255, 0.3);
+            background: rgba(10, 50, 100, 0.6);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(100, 200, 255, 0.1);
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .maze-container {
+            position: relative;
+            width: 90vmin;
+            height: 90vmin;
+            max-width: 600px;
+            max-height: 600px;
+            background-color: rgba(5, 30, 60, 0.8);
+            border: 1px solid rgba(100, 200, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 75, 150, 0.5);
+            overflow: hidden;
+        }
+        
+        .player {
+            position: absolute;
+            width: 5%;
+            height: 5%;
+            background-color: #ff6b6b;
+            border-radius: 2px;
+            transition: all 0.2s ease-out;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+        
+        .exit {
+            position: absolute;
+            width: 5%;
+            height: 5%;
+            background-color: #51cf66;
+            border-radius: 2px;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(81, 207, 102, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        .path {
+            position: absolute;
+            width: 5%;
+            height: 5%;
+            background-color: rgba(30, 70, 110, 0.08);
+            z-index: 1;
+            transition: opacity 0.5s;
+        }
+        
+        .hint-panel {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: rgba(10, 50, 100, 0.7);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #a0d8ff;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0, 75, 150, 0.3);
+            overflow: hidden;
+        }
+        
+        .hint-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(100, 200, 255, 0.05),
+                transparent
+            );
+        }
+        
+        /* Back button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            background: rgba(10, 50, 100, 0.7);
+            color: #a0d8ff;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .back-btn:hover {
+            background: rgba(100, 200, 255, 0.8);
+            color: #0a1a2a;
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.3);
         }
     </style>
 </head>
 <body>
-    <h1>INAZE</h1>
-    <button onclick="window.location.href='game.html'">PLAY</button>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen">
+        <h1 class="title">INVAZE</h1>
+        <button id="start-btn" class="btn">Start</button>
+    </div>
+    
+    <!-- Difficulty Selection Screen -->
+    <div id="difficulty-screen" class="screen">
+        <h1 class="title">Choose Difficulty</h1>
+        <div class="difficulty-options">
+            <button id="easy-btn" class="btn">Easy</button>
+            <button id="medium-btn" class="btn">Medium</button>
+            <button id="hard-btn" class="btn">Hard</button>
+        </div>
+    </div>
+    
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <button id="back-btn" class="back-btn">← Back</button>
+        <div class="game-header">
+            <div id="moves-counter">Moves: 0</div>
+            <div id="timer">Time: 0</div>
+        </div>
+        <div class="game-controls">
+            <div class="hint-panel" id="hint-panel">↑</div>
+        </div>
+        <div class="maze-container" id="maze-container">
+            <div class="player"></div>
+            <div class="exit"></div>
+        </div>
+    </div>
+
+    <script>
+        // Game Configuration
+        const config = {
+            easy: {
+                size: 10,
+                wallDensity: 0.25,
+                hintAccuracy: 0.75,
+                mazeComplexity: 1,
+                timeLimit: 120,
+                pathOpacity: 0.1  // Changed to 0.1 for all levels
+            },
+            medium: {
+                size: 15,
+                wallDensity: 0.3,
+                hintAccuracy: 0.75,
+                mazeComplexity: 2,
+                timeLimit: 90,
+                pathOpacity: 0.1   // Changed to 0.1 for all levels
+            },
+            hard: {
+                size: 20,
+                wallDensity: 0.35,
+                hintAccuracy: 0.75,
+                mazeComplexity: 3,
+                timeLimit: 60,
+                pathOpacity: 0.1   // Changed to 0.1 for all levels
+            }
+        };
+        
+        // Game State
+        let currentLevel = null;
+        let gameState = {
+            playerPos: { x: 0, y: 0 },
+            exitPos: { x: 0, y: 0 },
+            walls: [],
+            paths: [],
+            cellSize: 0,
+            moves: 0,
+            startTime: 0,
+            elapsedTime: 0,
+            timerInterval: null,
+            hintTimeout: null,
+            visitedPositions: [],
+            solutionPath: []
+        };
+        
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const difficultyScreen = document.getElementById('difficulty-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const startBtn = document.getElementById('start-btn');
+        const easyBtn = document.getElementById('easy-btn');
+        const mediumBtn = document.getElementById('medium-btn');
+        const hardBtn = document.getElementById('hard-btn');
+        const backBtn = document.getElementById('back-btn');
+        const player = document.querySelector('.player');
+        const exit = document.querySelector('.exit');
+        const hintPanel = document.getElementById('hint-panel');
+        const mazeContainer = document.getElementById('maze-container');
+        const movesCounter = document.getElementById('moves-counter');
+        const timerDisplay = document.getElementById('timer');
+        
+        // Event Listeners
+        startBtn.addEventListener('click', showDifficultyScreen);
+        easyBtn.addEventListener('click', () => startGame('easy'));
+        mediumBtn.addEventListener('click', () => startGame('medium'));
+        hardBtn.addEventListener('click', () => startGame('hard'));
+        backBtn.addEventListener('click', showDifficultyScreen);
+        document.addEventListener('keydown', handleKeyPress);
+        
+        // Screen Transitions
+        function showDifficultyScreen() {
+            welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.pointerEvents = 'none';
+            difficultyScreen.style.opacity = '1';
+            difficultyScreen.style.pointerEvents = 'auto';
+            gameScreen.style.opacity = '0';
+            gameScreen.style.pointerEvents = 'none';
+            
+            // Clear any game intervals
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+                gameState.timerInterval = null;
+            }
+            if (gameState.hintTimeout) {
+                clearTimeout(gameState.hintTimeout);
+                gameState.hintTimeout = null;
+            }
+        }
+        
+        function showGameScreen() {
+            difficultyScreen.style.opacity = '0';
+            difficultyScreen.style.pointerEvents = 'none';
+            gameScreen.style.opacity = '1';
+            gameScreen.style.pointerEvents = 'auto';
+        }
+        
+        // Game Initialization
+        function startGame(level) {
+            currentLevel = level;
+            const settings = config[level];
+            
+            // Reset game state
+            gameState = {
+                playerPos: { x: 0, y: 0 },
+                exitPos: { 
+                    x: settings.size - 1, 
+                    y: settings.size - 1 
+                },
+                walls: [],
+                paths: [],
+                cellSize: 0,
+                moves: 0,
+                startTime: Date.now(),
+                elapsedTime: 0,
+                timerInterval: null,
+                hintTimeout: null,
+                visitedPositions: [{x: 0, y: 0}],
+                solutionPath: []
+            };
+            
+            // Update UI
+            movesCounter.textContent = Moves: 0;
+            timerDisplay.textContent = Time: 0;
+            
+            // Setup maze
+            setupMaze(settings);
+            showGameScreen();
+            startTimer();
+            updateHint();
+        }
+        
+        function setupMaze(settings) {
+            // Clear previous maze
+            mazeContainer.innerHTML = '';
+            mazeContainer.appendChild(player);
+            mazeContainer.appendChild(exit);
+            
+            // Calculate cell size
+            const containerSize = mazeContainer.clientWidth;
+            gameState.cellSize = containerSize / settings.size;
+            
+            // Position player and exit
+            player.style.width = ${gameState.cellSize}px;
+            player.style.height = ${gameState.cellSize}px;
+            updatePlayerPosition();
+            
+            exit.style.width = ${gameState.cellSize}px;
+            exit.style.height = ${gameState.cellSize}px;
+            exit.style.left = ${gameState.exitPos.x * gameState.cellSize}px;
+            exit.style.top = ${gameState.exitPos.y * gameState.cellSize}px;
+            
+            // Generate proper maze with guaranteed solution
+            generateMaze(settings);
+            
+            // Visualize paths (subtle visibility)
+            visualizePaths(settings);
+        }
+        
+        function generateMaze(settings) {
+            // Create a grid
+            const grid = [];
+            for (let y = 0; y < settings.size; y++) {
+                grid[y] = [];
+                for (let x = 0; x < settings.size; x++) {
+                    grid[y][x] = { x, y, wall: true };
+                }
+            }
+            
+            // Use recursive backtracking to generate maze
+            const startCell = grid[0][0];
+            startCell.wall = false;
+            const stack = [startCell];
+            
+            while (stack.length > 0) {
+                const current = stack[stack.length - 1];
+                const neighbors = [];
+                
+                // Find all unvisited neighbors
+                const directions = [
+                    {dx: 0, dy: -1}, // up
+                    {dx: 1, dy: 0},  // right
+                    {dx: 0, dy: 1},  // down
+                    {dx: -1, dy: 0}  // left
+                ];
+                
+                for (const dir of directions) {
+                    const nx = current.x + dir.dx;
+                    const ny = current.y + dir.dy;
+                    
+                    if (nx >= 0 && nx < settings.size && ny >= 0 && ny < settings.size) {
+                        const neighbor = grid[ny][nx];
+                        if (neighbor.wall) {
+                            // Count visited neighbors of this neighbor
+                            let visitedNeighbors = 0;
+                            for (const ndir of directions) {
+                                const nnx = neighbor.x + ndir.dx;
+                                const nny = neighbor.y + ndir.dy;
+                                if (nnx >= 0 && nnx < settings.size && nny >= 0 && nny < settings.size) {
+                                    if (!grid[nny][nnx].wall) visitedNeighbors++;
+                                }
+                            }
+                            if (visitedNeighbors === 1) { // Only connected to current cell
+                                neighbors.push(neighbor);
+                            }
+                        }
+                    }
+                }
+                
+                if (neighbors.length > 0) {
+                    // Choose random neighbor
+                    const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+                    next.wall = false;
+                    
+                    // Add some complexity by occasionally creating loops
+                    if (Math.random() < 0.1 * settings.mazeComplexity) {
+                        const betweenX = current.x + (next.x - current.x) / 2;
+                        const betweenY = current.y + (next.y - current.y) / 2;
+                        if (Number.isInteger(betweenX) && Number.isInteger(betweenY)) {
+                            grid[betweenY][betweenX].wall = false;
+                        }
+                    }
+                    
+                    stack.push(next);
+                } else {
+                    stack.pop();
+                }
+            }
+            
+            // Ensure exit is reachable
+            grid[settings.size - 1][settings.size - 1].wall = false;
+            
+            // Find solution path for hint system
+            findSolutionPath(grid, settings.size);
+            
+            // Convert to wall and path positions
+            for (let y = 0; y < settings.size; y++) {
+                for (let x = 0; x < settings.size; x++) {
+                    if (grid[y][x].wall) {
+                        gameState.walls.push({x, y});
+                    } else {
+                        gameState.paths.push({x, y});
+                    }
+                }
+            }
+            
+            // Add some extra walls to create more dead ends
+            const extraWalls = Math.floor(settings.size * settings.size * 0.05 * settings.mazeComplexity);
+            for (let i = 0; i < extraWalls; i++) {
+                let wallPos;
+                do {
+                    wallPos = {
+                        x: Math.floor(Math.random() * settings.size),
+                        y: Math.floor(Math.random() * settings.size)
+                    };
+                } while (
+                    (wallPos.x === 0 && wallPos.y === 0) || // Don't block start
+                    (wallPos.x === gameState.exitPos.x && wallPos.y === gameState.exitPos.y) || // Don't block exit
+                    gameState.walls.some(w => w.x === wallPos.x && w.y === wallPos.y) || // No duplicates
+                    grid[wallPos.y][wallPos.x].wall || // Already a wall
+                    isOnSolutionPath(wallPos) // Don't block solution path
+                );
+                
+                gameState.walls.push(wallPos);
+            }
+        }
+        
+        function isOnSolutionPath(pos) {
+            return gameState.solutionPath.some(p => p.x === pos.x && p.y === pos.y);
+        }
+        
+        function findSolutionPath(grid, size) {
+            // Simple BFS to find solution path
+            const visited = Array(size).fill().map(() => Array(size).fill(false));
+            const queue = [{x: 0, y: 0, path: [{x: 0, y: 0}]}];
+            const directions = [
+                {dx: 0, dy: -1}, // up
+                {dx: 1, dy: 0},  // right
+                {dx: 0, dy: 1},  // down
+                {dx: -1, dy: 0}  // left
+            ];
+            
+            visited[0][0] = true;
+            
+            while (queue.length > 0) {
+                const current = queue.shift();
+                
+                // Check if reached exit
+                if (current.x === size - 1 && current.y === size - 1) {
+                    gameState.solutionPath = current.path;
+                    return;
+                }
+                
+                for (const dir of directions) {
+                    const nx = current.x + dir.dx;
+                    const ny = current.y + dir.dy;
+                    
+                    if (nx >= 0 && nx < size && ny >= 0 && ny < size && 
+                        !grid[ny][nx].wall && !visited[ny][nx]) {
+                        visited[ny][nx] = true;
+                        queue.push({
+                            x: nx,
+                            y: ny,
+                            path: [...current.path, {x: nx, y: ny}]
+                        });
+                    }
+                }
+            }
+        }
+        
+        function visualizePaths(settings) {
+            // Create subtle path visualization
+            gameState.paths.forEach(pos => {
+                const pathElement = document.createElement('div');
+                pathElement.className = 'path';
+                pathElement.style.width = ${gameState.cellSize}px;
+                pathElement.style.height = ${gameState.cellSize}px;
+                pathElement.style.left = ${pos.x * gameState.cellSize}px;
+                pathElement.style.top = ${pos.y * gameState.cellSize}px;
+                pathElement.style.opacity = settings.pathOpacity;
+                mazeContainer.appendChild(pathElement);
+            });
+            
+            // Add player and exit back on top
+            mazeContainer.appendChild(player);
+            mazeContainer.appendChild(exit);
+        }
+        
+        // Game Logic
+        function handleKeyPress(e) {
+            if (!['w', 'a', 's', 'd', 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'].includes(e.key.toLowerCase())) {
+                return;
+            }
+            
+            let direction;
+            switch(e.key.toLowerCase()) {
+                case 'w':
+                case 'arrowup':
+                    direction = 'up';
+                    break;
+                case 'a':
+                case 'arrowleft':
+                    direction = 'left';
+                    break;
+                case 's':
+                case 'arrowdown':
+                    direction = 'down';
+                    break;
+                case 'd':
+                case 'arrowright':
+                    direction = 'right';
+                    break;
+            }
+            
+            movePlayer(direction);
+            gameState.moves++;
+            movesCounter.textContent = Moves: ${gameState.moves};
+            updateHint();
+        }
+        
+        function movePlayer(direction) {
+            const newPos = { ...gameState.playerPos };
+            
+            switch(direction) {
+                case 'up': newPos.y--; break;
+                case 'down': newPos.y++; break;
+                case 'left': newPos.x--; break;
+                case 'right': newPos.x++; break;
+            }
+            
+            // Check boundaries
+            if (newPos.x < 0 || newPos.y < 0 || 
+                newPos.x >= config[currentLevel].size || 
+                newPos.y >= config[currentLevel].size) {
+                return;
+            }
+            
+            // Check walls
+            if (gameState.walls.some(w => w.x === newPos.x && w.y === newPos.y)) {
+                return;
+            }
+            
+            gameState.playerPos = newPos;
+            
+            // Track visited positions
+            if (!gameState.visitedPositions.some(pos => pos.x === newPos.x && pos.y === newPos.y)) {
+                gameState.visitedPositions.push({...newPos});
+            }
+            
+            updatePlayerPosition();
+            
+            // Check win condition
+            if (gameState.playerPos.x === gameState.exitPos.x && 
+                gameState.playerPos.y === gameState.exitPos.y) {
+                endGame(true);
+            }
+        }
+        
+        function updatePlayerPosition() {
+            player.style.left = ${gameState.playerPos.x * gameState.cellSize}px;
+            player.style.top = ${gameState.playerPos.y * gameState.cellSize}px;
+        }
+        
+        function updateHint() {
+            const settings = config[currentLevel];
+            const shouldShowCorrect = Math.random() < settings.hintAccuracy;
+            
+            let direction;
+            if (shouldShowCorrect) {
+                // Find next step in solution path
+                const currentIndex = gameState.solutionPath.findIndex(
+                    p => p.x === gameState.playerPos.x && p.y === gameState.playerPos.y
+                );
+                
+                if (currentIndex < gameState.solutionPath.length - 1) {
+                    const nextStep = gameState.solutionPath[currentIndex + 1];
+                    if (nextStep.x > gameState.playerPos.x) direction = 'right';
+                    if (nextStep.x < gameState.playerPos.x) direction = 'left';
+                    if (nextStep.y > gameState.playerPos.y) direction = 'down';
+                    if (nextStep.y < gameState.playerPos.y) direction = 'up';
+                } else {
+                    // Already at exit or very close
+                    direction = ['up', 'down', 'left', 'right'][Math.floor(Math.random() * 4)];
+                }
+            } else {
+                // Show random direction (could be correct by chance)
+                const directions = ['up', 'down', 'left', 'right'];
+                direction = directions[Math.floor(Math.random() * directions.length)];
+            }
+            
+            // Update hint panel
+            let arrowSymbol;
+            switch(direction) {
+                case 'up': arrowSymbol = '↑'; break;
+                case 'down': arrowSymbol = '↓'; break;
+                case 'left': arrowSymbol = '←'; break;
+                case 'right': arrowSymbol = '→'; break;
+            }
+            
+            hintPanel.textContent = arrowSymbol;
+            
+            // Clear any existing timeout
+            if (gameState.hintTimeout) {
+                clearTimeout(gameState.hintTimeout);
+            }
+            
+            // Set timeout for next hint (after move)
+            gameState.hintTimeout = setTimeout(updateHint, 2000);
+        }
+        
+        // Timer Functions
+        function startTimer() {
+            if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+            
+            gameState.startTime = Date.now();
+            gameState.timerInterval = setInterval(() => {
+                gameState.elapsedTime = Math.floor((Date.now() - gameState.startTime) / 1000);
+                timerDisplay.textContent = Time: ${gameState.elapsedTime};
+                
+                // Check time limit
+                if (gameState.elapsedTime >= config[currentLevel].timeLimit) {
+                    endGame(false);
+                }
+            }, 1000);
+        }
+        
+        function endGame(win) {
+            clearInterval(gameState.timerInterval);
+            if (gameState.hintTimeout) {
+                clearTimeout(gameState.hintTimeout);
+            }
+            
+            const time = gameState.elapsedTime;
+            if (win) {
+                alert(You won in ${time} seconds with ${gameState.moves} moves!);
+            } else {
+                alert(Time's up! You took ${gameState.moves} moves.);
+            }
+            
+            // Return to difficulty selection
+            showDifficultyScreen();
+        }
+    </script>
 </body>
 </html>
