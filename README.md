@@ -47,22 +47,29 @@ For Software:
 
 # Screenshots (Add at least 3)
 
+<img width="1911" height="928" alt="Screenshot 2025-08-09 064718" src="https://github.com/user-attachments/assets/c3ccfa00-ba5e-4ebd-9fc7-87090d5473ad" />
+
+<img width="1914" height="916" alt="Screenshot 2025-08-09 065015" src="https://github.com/user-attachments/assets/cf4542e8-e9f4-4e14-b89f-bbce80d23161" />
 
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1915" height="930" alt="Screenshot 2025-08-09 065303" src="https://github.com/user-attachments/assets/e0122ca4-6fd6-4df3-8a1c-1df7fb2d2129" />
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+#demo video
+
+https://github.com/user-attachments/assets/81713df5-c610-4391-9b3b-e8a176005870
+
+
+
+
+#additional demo
+https://temp-drab-iota.vercel.app/
+
 
 
 
 ## Team Contributions
-- Ann Saniya Rose Thomas: [FrontEnd]
+- Ann Saniya Rose Thomas: FrontEnd
 - Alan Parappil Agi: Backend
 
 ---
